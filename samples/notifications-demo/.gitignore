@@ -1,0 +1,15 @@
+# Configurazione e cache locali: non fanno parte dei sorgenti.
+*.iml
+/.idea/
+/.gradle/
+/.kotlin/
+local.properties
+.DS_Store
+
+# File generati per tutti i moduli.
+**/build/
+/captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.aab
