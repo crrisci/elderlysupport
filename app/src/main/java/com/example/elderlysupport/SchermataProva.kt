@@ -1,5 +1,8 @@
 package com.example.elderlysupport
 
+import androidx.activity.compose.BackHandler
+import androidx.compose.runtime.saveable.rememberSaveable
+import com.example.elderlysupport.medicine.MedicineScannerScreen
 import android.content.Intent
 import androidx.compose.ui.res.stringResource
 import com.example.elderlysupport.notifications.ReminderSettingsActivity
@@ -42,6 +45,18 @@ fun SchermataProva() {
 
     var nome by remember { mutableStateOf("") }
     var scadenza by remember { mutableStateOf("") }
+
+    var scannerOpen by rememberSaveable { mutableStateOf(false) }
+    if (scannerOpen) {
+        BackHandler { scannerOpen = false }
+        MedicineScannerScreen(onMedicineConfirmed = { medicine ->
+            scope.launch {
+                farmacoDao.inserisci(Farmaco(nome = medicine.name, scadenza = medicine.expiry.storageValue()))
+                scannerOpen = false
+            }
+        })
+        return
+    }
 
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         Column(
@@ -89,6 +104,8 @@ fun SchermataProva() {
             }) {
                 Text(stringResource(R.string.reminder_settings))
             }
+
+            TextButton(onClick = { scannerOpen = true }) { Text("Scansiona farmaco") }
 
             HorizontalDivider()
 

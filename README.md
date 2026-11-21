@@ -2,7 +2,7 @@
 
 Elderly Support è un progetto pensato per aiutare le persone anziane a riconoscere i farmaci dalla confezione, ricordare gli orari di assunzione e contattare rapidamente una persona di fiducia in caso di emergenza.
 
-Oggi su `main` si può provare un’app Android che salva i farmaci inseriti a mano e invia una notifica di prova. La checklist segue il documento *Elderly Support — Requisiti minimi, consegne e milestone*. Spuntiamo una funzione quando è integrata su `main` e si può verificare dall’app.
+Oggi su `main` si può provare un’app Android che salva i farmaci inseriti a mano o confermati dopo la scansione e invia una notifica di prova. La checklist segue il documento *Elderly Support — Requisiti minimi, consegne e milestone*. Spuntiamo una funzione quando è integrata su `main` e si può verificare dall’app.
 
 ## Checklist del progetto
 
@@ -10,9 +10,10 @@ Oggi su `main` si può provare un’app Android che salva i farmaci inseriti a m
 
 - [x] Inserire a mano il nome del farmaco e, facoltativamente, la scadenza.
 - [x] Salvare i farmaci sul dispositivo, mostrarli in elenco ed eliminarli.
-- [ ] Acquisire la foto della confezione tramite fotocamera o caricamento di un’immagine.
-- [ ] Riconoscere dalla confezione sia il nome del farmaco sia la data di scadenza.
-- [ ] Segnalare i farmaci già scaduti e quelli prossimi alla scadenza.
+- [x] Acquisire la foto della confezione tramite fotocamera o caricamento di un’immagine.
+- [x] Proporre nome e scadenza con OCR e consentire la correzione prima del salvataggio.
+- [ ] Misurare su almeno 20 confezioni diverse quanto spesso entrambi i campi vengono letti correttamente, con percentuali separate.
+- [x] Durante la revisione della scansione, segnalare scadenze superate o vicine (entro due mesi di calendario).
 
 ### Promemoria di assunzione
 
@@ -32,7 +33,8 @@ Oggi su `main` si può provare un’app Android che salva i farmaci inseriti a m
 2. Installare dal gestore SDK la piattaforma **Android API 37** e usare **JDK 25** per Gradle. Attendere la sincronizzazione del progetto.
 3. Selezionare il modulo **app** e un emulatore o telefono con **Android 8.0 (API 26)** o successivo, quindi premere **Run ▶**.
 4. Nella schermata iniziale inserire un nome di esempio, aggiungere una scadenza e premere **Salva farmaco**. Riaprire l’app per verificare che il farmaco sia ancora in elenco.
-5. Aprire **Promemoria farmaci → Invia notifica di prova**. Su Android 13 o successivo, concedere il permesso quando richiesto. Aprire il pannello notifiche e toccare **Promemoria di prova** per tornare all’app.
+5. Premere **Scansiona farmaco**, scattare una foto o sceglierla dalla galleria. Controllare nome e scadenza sulla confezione, correggere eventuali errori e premere **Conferma farmaco** per aggiungerlo all’elenco.
+6. Aprire **Promemoria farmaci → Invia notifica di prova**. Su Android 13 o successivo, concedere il permesso quando richiesto. Aprire il pannello notifiche e toccare **Promemoria di prova** per tornare all’app.
 
 Per compilare l’APK di debug ed eseguire i test unitari dalla cartella principale:
 
@@ -40,7 +42,7 @@ Per compilare l’APK di debug ed eseguire i test unitari dalla cartella princip
 ./gradlew :app:assembleDebug :app:testDebugUnitTest
 ```
 
-Sul prototipo Android sono stati verificati la compilazione, i test unitari esistenti e, su emulatore API 37, l’invio, l’apertura e la rimozione della notifica. I test di accuratezza del riconoscimento sono una verifica distinta, ancora da svolgere.
+Sul prototipo Android sono stati verificati la compilazione, i test unitari esistenti e, su emulatore API 37, l’invio, l’apertura e la rimozione della notifica. Lo scanner è stato provato con uno scatto virtuale e con un’immagine sintetica da galleria, verificando data completa, avviso di scadenza e salvataggio dopo il riavvio. I test di accuratezza su confezioni reali restano da svolgere.
 
 ## Architettura
 
@@ -48,6 +50,7 @@ Sul prototipo Android sono stati verificati la compilazione, i test unitari esis
 | --- | --- | --- |
 | Interfaccia Kotlin e Jetpack Compose | [MainActivity e SchermataProva](app/src/main/java/com/example/elderlysupport/) | Avvio, inserimento dei farmaci, elenco e accesso ai promemoria. |
 | Persistenza locale con Room | [data](app/src/main/java/com/example/elderlysupport/data/) | Il database locale prevede farmaci, promemoria e contatti di emergenza. La schermata attuale usa i farmaci. |
+| Scanner | [medicine](app/src/main/java/com/example/elderlysupport/medicine/) | ML Kit legge il testo sul dispositivo. Il parser propone nomi da un elenco dimostrativo di 10 farmaci e cerca una data associata a SCAD o EXP. |
 | Notifiche Android | [notifications](app/src/main/java/com/example/elderlysupport/notifications/) | La schermata gestisce il permesso e le azioni di prova. Il componente crea il canale, invia e annulla la notifica. |
 | Esempio autonomo | [samples/notifications-demo](samples/notifications-demo/) | Permette di provare le notifiche separatamente. Per avviare l’app condivisa si usa il progetto alla radice. |
 
@@ -56,7 +59,7 @@ Sul prototipo Android sono stati verificati la compilazione, i test unitari esis
 | Scelta richiesta | Stato e criterio di decisione |
 | --- | --- |
 | Piattaforma | Il prototipo usa Android nativo, con accesso alle notifiche di sistema. La traccia indica web app o desktop. Confermare con il docente l’ammissibilità di Android e documentare il confronto in termini di leggibilità, facilità d’uso e disponibilità del dispositivo per una persona anziana. |
-| Riconoscimento | Confrontare OCR, lettura del codice a barre o AIC e approccio combinato. Verificare come ottenere entrambi i dati richiesti, incluso il testo della scadenza sulla singola confezione. |
+| Riconoscimento | Il prototipo usa OCR per leggere nome e scadenza stampati sulla confezione. Il catalogo dimostrativo copre dieci nomi. Il confronto con codice a barre, AIC o un approccio combinato resta aperto fino alle prove reali. |
 | Canale SOS | Confrontare email, SMS e Telegram per immediatezza, affidabilità e requisiti per il destinatario. Provare la ricezione prima di segnare il requisito come completato. |
 | Sintesi vocale | Scegliere la libreria o il servizio dopo una prova della voce italiana sul dispositivo previsto. Valutare comprensibilità e funzionamento senza rete. |
 
