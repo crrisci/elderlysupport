@@ -1,0 +1,10 @@
+<!-- Aggiungere all'interno dell'elemento <application> in AndroidManifest.xml -->
+<provider
+    android:name="androidx.core.content.FileProvider"
+    android:authorities="${applicationId}.medicine.fileprovider"
+    android:exported="false"
+    android:grantUriPermissions="true">
+    <meta-data
+        android:name="android.support.FILE_PROVIDER_PATHS"
+        android:resource="@xml/medicine_file_paths" />
+</provider>
