@@ -1,0 +1,22 @@
+<resources>
+    <string name="reminder_settings">Promemoria farmaci</string>
+    <string name="notification_channel_name">Promemoria farmaci</string>
+    <string name="notification_channel_description">Notifiche locali per i promemoria dei farmaci.</string>
+    <string name="notification_public_title">Promemoria</string>
+    <string name="notification_public_message">Apri l’app per vedere i dettagli.</string>
+    <string name="demo_heading">Promemoria farmaci</string>
+    <string name="demo_description">Invia un promemoria locale immediato con dati di esempio. Al primo invio Android potrebbe chiederti il permesso di mostrare notifiche.</string>
+    <string name="demo_title">Promemoria di prova</string>
+    <string name="demo_message">È il momento del tuo promemoria dimostrativo. Nessun farmaco reale è associato a questa notifica.</string>
+    <string name="send_notification">Invia notifica di prova</string>
+    <string name="cancel_notification">Rimuovi notifica di prova</string>
+    <string name="notification_settings">Impostazioni notifiche</string>
+    <string name="status_ready">Notifiche abilitate.</string>
+    <string name="status_permission">Per inviare notifiche serve il tuo consenso.</string>
+    <string name="status_app_disabled">Le notifiche dell’app sono disattivate. Puoi abilitarle nelle impostazioni.</string>
+    <string name="status_channel_disabled">Il canale Promemoria farmaci è disattivato. Puoi abilitarlo nelle impostazioni.</string>
+    <string name="result_initial">Premi il pulsante per iniziare.</string>
+    <string name="result_sent">Notifica inviata. Scorri dall’alto per aprire il pannello notifiche; toccala per tornare qui.</string>
+    <string name="result_denied">Permesso non concesso: nessuna notifica inviata. Puoi riprovare o aprire le impostazioni.</string>
+    <string name="result_cancelled">Notifica di prova rimossa, se presente.</string>
+</resources>

@@ -1,6 +1,6 @@
 # Demo notifiche locali
 
-Progetto Android Kotlin autonomo per provare il componente notifiche di ElderlySupport. La base condivisa dell’app sarà aggiunta separatamente dal team; questa demo non è ancora integrata nell’app e non è una libreria AAR.
+Questo progetto autonomo permette di provare le notifiche locali. Nell’app condivisa si accede allo stesso componente dalla schermata dei farmaci, premendo **Promemoria farmaci**.
 
 ## Aprire e provare
 
@@ -14,7 +14,7 @@ Aprire **questa cartella** (`samples/notifications-demo`) come progetto in Andro
 
 **Impostazioni notifiche** apre le impostazioni dell’app; lo stato viene aggiornato al ritorno nella demo. Gli invii della demo usano l’id `1001` e aggiornano la stessa notifica.
 
-## File da integrare nella base dell’app
+## File del progetto dimostrativo
 
 - `app/src/main/java/it/example/farmaci/demo/notifications/MedicineNotifications.kt`: creazione del canale, verifica permesso e abilitazione, invio e annullamento.
 - `app/src/main/res/drawable/ic_notification.xml`: icona della notifica.

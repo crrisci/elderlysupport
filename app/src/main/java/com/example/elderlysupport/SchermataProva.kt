@@ -1,5 +1,8 @@
 package com.example.elderlysupport
 
+import android.content.Intent
+import androidx.compose.ui.res.stringResource
+import com.example.elderlysupport.notifications.ReminderSettingsActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -79,6 +82,12 @@ fun SchermataProva() {
                 }
             ) {
                 Text("Salva farmaco")
+            }
+
+            TextButton(onClick = {
+                context.startActivity(Intent(context, ReminderSettingsActivity::class.java))
+            }) {
+                Text(stringResource(R.string.reminder_settings))
             }
 
             HorizontalDivider()
